@@ -19,4 +19,8 @@ public class Logger {
     public static void e(String message, Throwable throwable) {
         Log.e(TAG, message, throwable);
     }
+
+    public static void e(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage(), throwable);
+    }
 }

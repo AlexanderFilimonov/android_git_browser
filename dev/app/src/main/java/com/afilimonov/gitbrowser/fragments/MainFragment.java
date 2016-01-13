@@ -3,6 +3,8 @@ package com.afilimonov.gitbrowser.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,22 +17,18 @@ import android.widget.Toast;
 
 import com.afilimonov.gitbrowser.R;
 import com.afilimonov.gitbrowser.model.Repo;
+import com.afilimonov.gitbrowser.utils.ReposLoader;
 import com.afilimonov.gitbrowser.utils.Logger;
-import com.afilimonov.gitbrowser.utils.RetrofitHelper;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by Alejandro on 09.01.2016.
  */
 public class MainFragment extends BaseFragment {
+
+    private static final int REPOS_LOADER_ID = 1;
 
     private RecyclerView recyclerView;
     private Adapter adapter;
@@ -38,6 +36,7 @@ public class MainFragment extends BaseFragment {
     private EditText userNameField;
 
     private List<Repo> repos;
+    private LoaderCallback loaderCallback;
 
     public MainFragment() {
         super();
@@ -51,7 +50,26 @@ public class MainFragment extends BaseFragment {
         userNameField = (EditText) view.findViewById(R.id.userNameField);
         initRecyclerView();
         initShowReposButton();
+        initLoader();
+
         return view;
+    }
+
+    private void loadRepos() {
+        Loader<List<Repo>> loader = getLoaderManager().getLoader(REPOS_LOADER_ID);
+        if (loader == null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("user", userNameField.getText().toString());
+            loader = getLoaderManager().restartLoader(REPOS_LOADER_ID, bundle, loaderCallback);
+        }
+        loader.forceLoad();
+    }
+
+    private void initLoader() {
+        loaderCallback = new LoaderCallback();
+        Bundle bundle = new Bundle();
+        bundle.putString("user", getContext().getString(R.string.userNameDefault));
+        getLoaderManager().initLoader(REPOS_LOADER_ID, bundle, loaderCallback);
     }
 
     private void initShowReposButton() {
@@ -60,39 +78,8 @@ public class MainFragment extends BaseFragment {
             public void onClick(View v) {
                 String userName = userNameField.getText().toString();
                 if (!TextUtils.isEmpty(userName)) {
-                    getReposList();
+                    loadRepos();
                 }
-            }
-        });
-    }
-
-    private void getReposList() {
-        RetrofitHelper retrofitHelper = new RetrofitHelper();
-        Call<List<Repo>> call = retrofitHelper.getApiInterface(getContext()).listRepos("AlexanderFilimonov");
-        Logger.d("call.enqueue");
-        call.enqueue(new Callback<List<Repo>>() {
-            @Override
-            public void onResponse(Response<List<Repo>> response, Retrofit retrofit) {
-                Logger.d("onResponse " + response);
-                if (response.isSuccess()) {
-                    List<Repo> responseRepos = response.body();
-                    if (responseRepos != null) {
-                        repos.clear();
-                        repos.addAll(responseRepos);
-                        for (Repo repo : repos) {
-                            Logger.d(new Gson().toJson(repo));
-                        }
-                        showListView();
-                    }
-                } else {
-                    showToast("received error response " + response);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Logger.e(t);
-                showToast("failure while sending request");
             }
         });
     }
@@ -149,6 +136,33 @@ public class MainFragment extends BaseFragment {
             super(itemView);
 
             titleView = (TextView) itemView.findViewById(R.id.titleView);
+        }
+    }
+
+
+    private class LoaderCallback implements LoaderManager.LoaderCallbacks<List<Repo>> {
+        @Override
+        public Loader<List<Repo>> onCreateLoader(int id, Bundle args) {
+            Loader<List<Repo>> loader = null;
+            if (id == REPOS_LOADER_ID) {
+                loader = new ReposLoader(getContext(), args);
+            }
+            return loader;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<List<Repo>> loader, List<Repo> data) {
+            Logger.d("LoaderCallback.onLoadFinished");
+            if (data != null) {
+                repos.clear();
+                repos.addAll(data);
+                showListView();
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<List<Repo>> loader) {
+            Logger.d("LoaderCallback.onLoaderReset");
         }
     }
 }

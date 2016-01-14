@@ -1,5 +1,6 @@
 package com.afilimonov.gitbrowser.model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -28,4 +29,12 @@ public class Repo {
     @DatabaseField
     @SerializedName("html_url")
     public String htmlUrl;
+
+    public static Repo fromJson(String string) {
+        return new Gson().fromJson(string, Repo.class);
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
 }

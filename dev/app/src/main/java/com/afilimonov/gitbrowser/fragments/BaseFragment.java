@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afilimonov.gitbrowser.MainActivity;
+
 /**
  * Created by Alejandro on 09.01.2016.
  * Base fragment realization

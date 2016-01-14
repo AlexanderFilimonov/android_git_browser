@@ -5,5 +5,10 @@
     <string name="userNameDefault">AlexanderFilimonov</string>
     <string name="showReposButtonCaption">Show repos</string>
     <string name="userNameFieldEmptyErrorText">Enter user name</string>
+    <string name="repoDetailsText" formatted="false">
+        id: %s
+        \n\nfull name:\n%s
+        \n\nurl:\n%s
+    </string>
 
 </resources>

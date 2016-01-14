@@ -77,9 +77,10 @@ public class SetUserNameFragment extends BaseFragment {
 
     private void loadRepos() {
         Loader<List<Repo>> loader = getLoaderManager().getLoader(LoaderCallback.REPOS_LOADER_ID);
-        if (loader == null) {
+        String enteredUserName = userNameField.getText().toString();
+        if (loader == null || !enteredUserName.equals(((ReposLoader) loader).getUserName())) {
             Bundle bundle = new Bundle();
-            bundle.putString(ReposLoader.USER_NAME_KEY, userNameField.getText().toString());
+            bundle.putString(ReposLoader.USER_NAME_KEY, enteredUserName);
             loader = getLoaderManager().restartLoader(LoaderCallback.REPOS_LOADER_ID, bundle, loaderCallback);
         }
         loader.forceLoad();
@@ -107,6 +108,7 @@ public class SetUserNameFragment extends BaseFragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, ReposListFragment.newInstance())
                         .commitAllowingStateLoss();
+                getLoaderManager().destroyLoader(REPOS_LOADER_ID);
             }
         }
 

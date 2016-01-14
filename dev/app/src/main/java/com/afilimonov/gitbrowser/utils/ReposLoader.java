@@ -107,4 +107,7 @@ public class ReposLoader extends Loader<List<Repo>> {
         Logger.d("ReposLoader.onStopLoading");
     }
 
+    public String getUserName() {
+        return userName;
+    }
 }

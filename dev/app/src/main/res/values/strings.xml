@@ -4,5 +4,6 @@
     <string name="userNameFieldHint">Enter user name</string>
     <string name="userNameDefault">AlexanderFilimonov</string>
     <string name="showReposButtonCaption">Show repos</string>
+    <string name="userNameFieldEmptyErrorText">Enter user name</string>
 
 </resources>

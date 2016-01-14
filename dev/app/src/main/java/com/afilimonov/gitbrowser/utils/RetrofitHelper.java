@@ -16,7 +16,7 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 
 /**
- * Created by Alejandro on 09.01.2016.
+ * Created by Alejandro on 09.01.2016. 
  */
 public class RetrofitHelper {
 

@@ -1,5 +1,6 @@
 package com.afilimonov.gitbrowser;
 
+import com.afilimonov.gitbrowser.database.OrmLiteDatabaseHelper;
 import com.afilimonov.gitbrowser.utils.Logger;
 
 /**
@@ -15,12 +16,14 @@ public class Application extends android.app.Application implements Thread.Uncau
     public void onCreate() {
         currentHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+        OrmLiteDatabaseHelper.initHelper(getApplicationContext());
 
         super.onCreate();
     }
 
     public void onTerminate() {
         super.onTerminate();
+        OrmLiteDatabaseHelper.releaseHelper();
     }
 
     public void uncaughtException(Thread thread, Throwable throwable) {

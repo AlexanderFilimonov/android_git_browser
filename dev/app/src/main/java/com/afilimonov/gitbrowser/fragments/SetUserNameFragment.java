@@ -12,20 +12,22 @@ import android.widget.EditText;
 
 import com.afilimonov.gitbrowser.R;
 import com.afilimonov.gitbrowser.model.Repo;
+import com.afilimonov.gitbrowser.utils.Constants;
 import com.afilimonov.gitbrowser.utils.Logger;
+import com.afilimonov.gitbrowser.utils.Preferences;
 import com.afilimonov.gitbrowser.utils.ReposLoader;
 
 import java.util.List;
 
 /**
  * Created by Aliaksandr_Filimonau on 2016-01-14.
- * Screen with setting of user name
+ * Screen with first time set of user name
  */
 public class SetUserNameFragment extends BaseFragment {
 
-    private EditText userNameField;
-    private View loadReposButton;
-    private View loadReposButtonProgressBar;
+    protected EditText userNameField;
+    protected View loadReposButton;
+    protected View loadReposButtonProgressBar;
 
     private LoaderCallback loaderCallback;
 
@@ -43,6 +45,8 @@ public class SetUserNameFragment extends BaseFragment {
         Logger.d("SetUserNameFragment.onCreateView()");
         view = inflater.inflate(R.layout.fragment_set_user_name, container, false);
         userNameField = (EditText) view.findViewById(R.id.userNameField);
+        String userName = Preferences.getString(Constants.USER_NAME_KEY, null, getContext());
+        if (userName != null) userNameField.setText(userName);
         initLoadReposButton();
         initLoader();
         return view;
@@ -55,7 +59,7 @@ public class SetUserNameFragment extends BaseFragment {
         getLoaderManager().initLoader(LoaderCallback.REPOS_LOADER_ID, bundle, loaderCallback);
     }
 
-    private void initLoadReposButton() {
+    protected void initLoadReposButton() {
         loadReposButtonProgressBar = view.findViewById(R.id.loadReposButtonProgressBar);
         loadReposButton = view.findViewById(R.id.loadReposButton);
         loadReposButton.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +73,14 @@ public class SetUserNameFragment extends BaseFragment {
                     loadReposButton.setVisibility(View.INVISIBLE);
                     loadReposButtonProgressBar.setVisibility(View.VISIBLE);
 
-                    loadRepos();
+                    loadRepos(userName);
                 }
             }
         });
     }
 
-    private void loadRepos() {
+    private void loadRepos(String enteredUserName) {
         Loader<List<Repo>> loader = getLoaderManager().getLoader(LoaderCallback.REPOS_LOADER_ID);
-        String enteredUserName = userNameField.getText().toString();
         if (loader == null || !enteredUserName.equals(((ReposLoader) loader).getUserName())) {
             Bundle bundle = new Bundle();
             bundle.putString(ReposLoader.USER_NAME_KEY, enteredUserName);

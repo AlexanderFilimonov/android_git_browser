@@ -8,7 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="cpbStyle">@style/cpbStyle</item>
 
-        <item name="colorControlActivated">@color/colorSwitchActivated</item>
+        <item name="colorControlNormal">@color/colorAccentBright</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccentBright</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button">

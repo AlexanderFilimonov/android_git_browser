@@ -8,7 +8,6 @@ import com.afilimonov.gitbrowser.utils.Logger;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -32,7 +31,6 @@ public class OrmLiteDatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static OrmLiteDatabaseHelper databaseHelper;
 
     private Dao<Repo, Integer> repoDao = null;
-    private RuntimeExceptionDao<Repo, Integer> repoRuntimeDao = null;
 
     public static OrmLiteDatabaseHelper getHelper() {
         return databaseHelper;
@@ -82,18 +80,10 @@ public class OrmLiteDatabaseHelper extends OrmLiteSqliteOpenHelper {
         return repoDao;
     }
 
-    public RuntimeExceptionDao<Repo, Integer> getRepoRuntimeDao() {
-        if (repoRuntimeDao == null) {
-            repoRuntimeDao = getRuntimeExceptionDao(Repo.class);
-        }
-        return repoRuntimeDao;
-    }
-
     @Override
     public void close() {
         super.close();
         repoDao = null;
-        repoRuntimeDao = null;
     }
 
     public void deleteAllRepos() {

@@ -10,5 +10,7 @@
         \n\nfull name:\n%s
         \n\nurl:\n%s
     </string>
+    <string name="changeUserOption">Change user</string>
+    <string name="saveButtonTitle">Save</string>
 
 </resources>

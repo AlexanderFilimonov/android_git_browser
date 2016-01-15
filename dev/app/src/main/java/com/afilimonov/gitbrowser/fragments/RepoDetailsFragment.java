@@ -21,7 +21,7 @@ public class RepoDetailsFragment extends BaseFragment {
     private static final String REPO_KEY = "repo";
 
     private Repo repo;
-    private String transitionName;
+    private String titleViewTransitionName;
 
     public static RepoDetailsFragment newInstance(Repo repo) {
         RepoDetailsFragment fragment = new RepoDetailsFragment();
@@ -49,7 +49,7 @@ public class RepoDetailsFragment extends BaseFragment {
         if (savedInstanceState != null) {
             repo = Repo.fromJson(savedInstanceState.getString(REPO_KEY));
         }
-        View view = inflater.inflate(R.layout.fragment_repo_details, container, false);
+        view = inflater.inflate(R.layout.fragment_repo_details, container, false);
 
         TextView titleView = (TextView) view.findViewById(R.id.titleView);
         titleView.setText(repo.name);
@@ -63,10 +63,10 @@ public class RepoDetailsFragment extends BaseFragment {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyTransitionName(View view) {
-        view.findViewById(R.id.titleView).setTransitionName(transitionName);
+        view.findViewById(R.id.titleView).setTransitionName(titleViewTransitionName);
     }
 
-    public void setTransitionName(String transitionName) {
-        this.transitionName = transitionName;
+    public void setTitleViewTransitionName(String titleViewTransitionName) {
+        this.titleViewTransitionName = titleViewTransitionName;
     }
 }

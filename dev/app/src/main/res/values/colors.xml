@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#01579b</color>
     <color name="colorAccent">#03a9f4</color>
     <color name="colorAccentBright">#4fc3f7</color>
-    <color name="colorControlNormal">#ffb7b7b7</color>
+
+
 
     <color name="colorSwitchActivated">#0277bd</color>
     <color name="hintTextColor">#a0a0a0</color>

@@ -8,12 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afilimonov.gitbrowser.fragments.ReposListFragment;
 import com.afilimonov.gitbrowser.fragments.SetUserNameFragment;
+import com.afilimonov.gitbrowser.utils.Constants;
 import com.afilimonov.gitbrowser.utils.Logger;
+import com.afilimonov.gitbrowser.utils.Preferences;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -41,9 +42,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showStartFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, SetUserNameFragment.newInstance())
-                .commit();
+        if (Preferences.getString(Constants.USER_NAME_KEY, null, this) == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, SetUserNameFragment.newInstance())
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, ReposListFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override

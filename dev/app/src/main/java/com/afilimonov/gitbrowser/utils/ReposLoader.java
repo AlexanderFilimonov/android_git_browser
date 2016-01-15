@@ -73,9 +73,9 @@ public class ReposLoader extends Loader<List<Repo>> {
         if (response.isSuccess()) {
             List<Repo> repos = response.body();
             if (repos != null) {
-                // TODO: 2016-01-14 save repos to db
                 OrmLiteDatabaseHelper.getHelper().deleteAllRepos();
                 OrmLiteDatabaseHelper.getHelper().addRepos(repos);
+                Preferences.putString(Constants.USER_NAME_KEY, userName, getContext());
                 deliverResult(repos);
             }
         } else {

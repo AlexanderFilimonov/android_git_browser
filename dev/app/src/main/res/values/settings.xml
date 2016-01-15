@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="githubServerUrl">https://api.github.com/</string>
-    <!--<string name="githubServerUrl">https://api.github.com/api/v3</string>-->
 </resources>

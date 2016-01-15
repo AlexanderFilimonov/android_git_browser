@@ -5,7 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
+    <com.afilimonov.gitbrowser.view.circularprogressbar.CircularProgressBar
+        android:id="@+id/progressBar"
+        style="@style/cpbStyleMainColor"
+        android:layout_width="@dimen/progressBarLargeSize"
+        android:layout_height="@dimen/progressBarLargeSize"
+        android:visibility="gone"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center_horizontal"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listView"
         android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.afilimonov.gitbrowser.fragments;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,9 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afilimonov.gitbrowser.MainActivity;
 import com.afilimonov.gitbrowser.R;
 import com.afilimonov.gitbrowser.database.OrmLiteDatabaseHelper;
 import com.afilimonov.gitbrowser.model.Repo;
+import com.afilimonov.gitbrowser.utils.CameraHelper;
 import com.afilimonov.gitbrowser.utils.Constants;
 import com.afilimonov.gitbrowser.utils.Logger;
 import com.afilimonov.gitbrowser.utils.Preferences;
@@ -46,6 +50,16 @@ public class ReposListFragment extends BaseFragment {
 
     public ReposListFragment() {
         super();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -118,6 +132,14 @@ public class ReposListFragment extends BaseFragment {
                         .addToBackStack(SetUserNameFragment.class.getName())
                         .commit();
                 break;
+            case R.id.cameraOption:
+                new CameraHelper(getActivity(), new MainActivity.ActivityResultListener() {
+                    @Override
+                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                        // handle photo provided by camera
+                    }
+                }).runCamera();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -150,10 +172,10 @@ public class ReposListFragment extends BaseFragment {
         String transitionName = v.getTransitionName();
         fragment.setTitleViewTransitionName(transitionName);
         setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.trans_move));
-        setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
+        setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
 
         fragment.setSharedElementEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.trans_move));
-        fragment.setEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
+        fragment.setEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -1,5 +1,6 @@
 package com.afilimonov.gitbrowser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +11,14 @@ import android.view.View;
 
 import com.afilimonov.gitbrowser.fragments.ReposListFragment;
 import com.afilimonov.gitbrowser.fragments.SetUserNameFragment;
+import com.afilimonov.gitbrowser.utils.ActivityListeners;
 import com.afilimonov.gitbrowser.utils.Constants;
 import com.afilimonov.gitbrowser.utils.Logger;
 import com.afilimonov.gitbrowser.utils.Preferences;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityListeners {
+
+    private ActivityListeners.Container listenersContainer = new ActivityListeners.Container();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,5 +70,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        listenersContainer.runRequestPermissionListeners(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        listenersContainer.runActivityResultListeners(requestCode, resultCode, data);
+    }
+
+    @Override
+    public Container getContainer() {
+        return listenersContainer;
     }
 }

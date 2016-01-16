@@ -7,8 +7,15 @@
         <item
             android:id="@+id/changeUserOption"
             android:title="@string/changeUserOption"
-            app:showAsAction="always"
+            app:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_manage"
+            />
+
+        <item
+            android:id="@+id/cameraOption"
+            android:title="@string/changeUserOption"
+            app:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_menu_camera"
             />
     </group>
 </menu>

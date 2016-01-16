@@ -31,7 +31,7 @@ public class CameraHelper {
             Logger.d("camera permission not granted");
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
                 Logger.d("camera shouldShowRequestPermissionRationale");
-                Toast.makeText(activity, "Show an expanation to the user", Toast.LENGTH_SHORT).show(); // debug
+                Toast.makeText(activity, "Show an explanation to the user", Toast.LENGTH_SHORT).show(); // debug
 
             } else {
                 Logger.d("camera doesn't shouldShowRequestPermissionRationale");

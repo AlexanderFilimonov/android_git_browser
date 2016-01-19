@@ -3,6 +3,7 @@ package com.afilimonov.gitbrowser.fragments;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,9 +28,11 @@ import com.afilimonov.gitbrowser.database.OrmLiteDatabaseHelper;
 import com.afilimonov.gitbrowser.model.Repo;
 import com.afilimonov.gitbrowser.utils.CameraHelper;
 import com.afilimonov.gitbrowser.utils.Constants;
+import com.afilimonov.gitbrowser.utils.LocationServiceHelper;
 import com.afilimonov.gitbrowser.utils.Logger;
 import com.afilimonov.gitbrowser.utils.Preferences;
 import com.afilimonov.gitbrowser.utils.ReposLoader;
+import com.google.android.gms.location.LocationListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,13 +135,23 @@ public class ReposListFragment extends BaseFragment {
                         .addToBackStack(SetUserNameFragment.class.getName())
                         .commit();
                 break;
+
             case R.id.cameraOption:
                 new CameraHelper(getActivity(), new MainActivity.ActivityResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                        // handle photo provided by camera
+                        Logger.d("handle photo provided by camera");
                     }
                 }).runCamera();
+                break;
+
+            case R.id.locationOption:
+                LocationServiceHelper.getInstance(getActivity()).connect(new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Logger.d("finally received location " + location);
+                    }
+                });
                 break;
         }
         return super.onOptionsItemSelected(item);

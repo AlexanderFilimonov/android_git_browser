@@ -44,12 +44,16 @@ public class SetUserNameFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Logger.d("SetUserNameFragment.onCreateView()");
         view = inflater.inflate(R.layout.fragment_set_user_name, container, false);
-        userNameField = (EditText) view.findViewById(R.id.userNameField);
-        String userName = Preferences.getString(Constants.USER_NAME_KEY, null, getContext());
-        if (userName != null) userNameField.setText(userName);
+        initUserNameField();
         initLoadReposButton();
         initLoader();
         return view;
+    }
+
+    private void initUserNameField() {
+        userNameField = (EditText) view.findViewById(R.id.userNameField);
+        String userName = Preferences.getString(Constants.USER_NAME_KEY, null, getContext());
+        if (userName != null) userNameField.setText(userName);
     }
 
     private void initLoader() {

@@ -10,12 +10,17 @@
             app:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_manage"
             />
-
         <item
             android:id="@+id/cameraOption"
             android:title="@string/changeUserOption"
             app:showAsAction="ifRoom"
             android:icon="@android:drawable/ic_menu_camera"
+            />
+        <item
+            android:id="@+id/locationOption"
+            android:title="@string/getLocationOption"
+            app:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_menu_mylocation"
             />
     </group>
 </menu>

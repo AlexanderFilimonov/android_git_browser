@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GitBrowser</string>
     <string name="action_settings">Settings</string>
-    <string name="userNameFieldHint">Enter user name</string>
+    <string name="userNameFieldHint">User name</string>
     <string name="userNameDefault">AlexanderFilimonov</string>
     <string name="showReposButtonCaption">Show repos</string>
     <string name="userNameFieldEmptyErrorText">Enter user name</string>
@@ -12,5 +12,11 @@
     </string>
     <string name="changeUserOption">Change user</string>
     <string name="saveButtonTitle">Save</string>
+    <string name="getLocationOption">Receive my location</string>
+
+    <string name="cameraPermExplDialogTitle">Camera permission request</string>
+    <string name="cameraPermExplDialogMessage">We need permissions to access device camera for scranning your bank cards.</string>
+    <string name="cameraPermExplDialogOkButton">Allow</string>
+    <string name="cameraPermExplDialogCancelButton">Deny</string>
 
 </resources>

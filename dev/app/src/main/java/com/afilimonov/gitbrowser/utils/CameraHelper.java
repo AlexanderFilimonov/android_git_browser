@@ -2,11 +2,15 @@ package com.afilimonov.gitbrowser.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
+
+import com.afilimonov.gitbrowser.R;
 
 /**
  * Created by Aliaksandr_Filimonau on 2016-01-16.
@@ -26,16 +30,14 @@ public class CameraHelper {
     }
 
     public void runCamera() {
-        boolean isPermissionGranted = PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
-        if (!isPermissionGranted) {
+        if (!isPermissionGranted()) {
             Logger.d("camera permission not granted");
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
                 Logger.d("camera shouldShowRequestPermissionRationale");
-                Toast.makeText(activity, "Show an explanation to the user", Toast.LENGTH_SHORT).show(); // debug
+                showPermissionExplanationDialog();
 
             } else {
                 Logger.d("camera doesn't shouldShowRequestPermissionRationale");
-                Logger.d("requestPermissions");
                 requestPermissions();
             }
         } else {
@@ -44,18 +46,28 @@ public class CameraHelper {
         }
     }
 
-    private void requestPermissions() {
-        if (activity instanceof ActivityListeners) {
-            ((ActivityListeners) activity).getContainer().getPermissionListeners().add(new ActivityListeners.RequestPermissionListener() {
-                @Override
-                public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-                    ((ActivityListeners) activity).getContainer().getPermissionListeners().remove(this);
-                    CameraHelper.this.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                }
-            });
-        }
+    private void showPermissionExplanationDialog() {
+        new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.cameraPermExplDialogTitle))
+                .setMessage(activity.getString(R.string.cameraPermExplDialogTitle))
+                .setPositiveButton(activity.getString(R.string.cameraPermExplDialogOkButton), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPermissions();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(activity.getString(R.string.cameraPermExplDialogCancelButton), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+    }
 
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+    private boolean isPermissionGranted() {
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
     }
 
     private void startCameraActivity() {
@@ -75,6 +87,21 @@ public class CameraHelper {
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         activity.startActivityForResult(cameraIntent, CAMERA_ACTIVITY_REQUEST_CODE);
+    }
+
+    private void requestPermissions() {
+        Logger.d("request camera permissions");
+        if (activity instanceof ActivityListeners) {
+            ((ActivityListeners) activity).getContainer().getPermissionListeners().add(new ActivityListeners.RequestPermissionListener() {
+                @Override
+                public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+                    ((ActivityListeners) activity).getContainer().getPermissionListeners().remove(this);
+                    CameraHelper.this.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            });
+        }
+
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
     }
 
     private void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

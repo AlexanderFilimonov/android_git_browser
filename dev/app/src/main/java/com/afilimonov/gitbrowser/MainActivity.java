@@ -2,6 +2,7 @@ package com.afilimonov.gitbrowser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ActivityListeners
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         listenersContainer.runRequestPermissionListeners(requestCode, permissions, grantResults);
     }

@@ -11,6 +11,9 @@
         <item name="colorControlNormal">@color/colorAccentBright</item>
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccentBright</item>
+
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button">
@@ -26,8 +29,6 @@
     </style>
 
     <style name="editTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
         <item name="android:textColorHint">@color/hintTextColor</item>
         <item name="android:textColor">@color/textColorMain</item>
     </style>
@@ -54,4 +55,5 @@
         <item name="color">#ffffff</item>
     </style>
 
+    <color name="textColorPrimary">#ffffff</color>
 </resources>
